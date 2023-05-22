@@ -1,0 +1,19 @@
+BATTLESHIP REQUIREMENTS
+
+- 2 player console game
+- Based on Battleship from Mattel
+- 25-spot grid (A1-E5)
+- Each player places five pegs, representing their five ships
+- Players take turn firing on opposing ships
+- First person to sink all opposing ships wins
+
+~Lets use the WOULD Framework
+
+W - Walk through the project
+O - Open up the requirements
+U - User interface design
+L - Logic design
+D - Data design
+
+Take time to plan at every level, before committing to writing code.
+This helps save time and reduce bugs.
