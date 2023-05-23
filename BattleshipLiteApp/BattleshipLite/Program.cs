@@ -1,5 +1,6 @@
 ﻿using BattleshipLiteLibrary;
 using BattleshipLiteLibrary.Models;
+using System.Threading.Tasks.Dataflow;
 
 namespace BattleshipLite
 {
@@ -8,10 +9,128 @@ namespace BattleshipLite
         static void Main(string[] args)
         {
             WelcomeMessage();
-            PlayerInfoModel player1 = CreatePlayer("Player 1");
-            PlayerInfoModel player2 = CreatePlayer("Player 2");
+            PlayerInfoModel activePlayer = CreatePlayer("Player 1");
+            PlayerInfoModel opponent = CreatePlayer("Player 2");
+
+            PlayerInfoModel winner = null;
+            do
+            {
+                // Display grid of active player where they fired
+                DisplayShotGrid(activePlayer);
+
+                // Ask active player for a shot
+
+                // Determine if shot was valid
+
+                // Determine shot results
+                RecordPlayerShot(activePlayer, opponent);
+
+                // Determine if game continues
+                bool doesGameContinue = GameLogic.PlayerStillActive(opponent);
+
+                // If over, set active player as winner
+
+                // Else go to opponent
+                if (doesGameContinue == true)
+                {
+
+                    // Swap using a temp variable
+                    /*PlayerInfoModel temp = opponent;
+                    opponent = activePlayer;
+                    activePlayer = temp;*/
+
+                    // New way of implementing this as of C# 7.0 (Tuple)
+                    // Both are swapped at the same time, negating any concern about one value being overwritten
+                    (activePlayer, opponent) = (opponent, activePlayer);
+                }
+                else
+                {
+                    winner = activePlayer;
+                }
+
+            } while (winner == null);
+
+            IdentifyWinner(winner);
 
             Console.ReadLine();
+        }
+
+        private static void IdentifyWinner(PlayerInfoModel winner)
+        {
+            Console.WriteLine($"Congratulations to {winner.PlayersName}");
+            Console.WriteLine($"{winner.PlayersName} took {GameLogic.GetShotCount(winner)} shots.");
+        }
+
+        private static void RecordPlayerShot(PlayerInfoModel activePlayer, PlayerInfoModel opponent)
+        {
+            // Ask for a shot (Example: C4)
+            // Split apart input to determine row and column
+            // Determine if valid shot
+            // Loop back if shot was not valid
+
+            bool isValidShot = false;
+            string row = "";
+            int column = 0;
+
+            do
+            {
+                string shot = AskForShot();
+                (row, column) = GameLogic.SpotIdentifier(shot);
+                isValidShot = GameLogic.ValidateShot(activePlayer, row, column);
+
+                if (isValidShot == false)
+                {
+                    Console.WriteLine("Invalid shot location. Please try again.");
+                }
+
+            } while (isValidShot == false);
+
+            // Determine shot results
+            bool isHit = GameLogic.ShotResultIdentifier(opponent, row, column);
+
+            // Store data
+            GameLogic.MarkShotResults(activePlayer, row, column, isHit);
+
+        }
+
+        private static string AskForShot()
+        {
+            Console.Write("Please enter your shot on the grid: ");
+            string output = Console.ReadLine();
+
+            return output;
+        }
+
+        private static void DisplayShotGrid(PlayerInfoModel activePlayer)
+        {
+            string currentRow = activePlayer.ShotGrid[0].SpotLetter;
+
+            foreach (var gridSpot in activePlayer.ShotGrid) 
+            {
+                if (gridSpot.SpotLetter != currentRow)
+                {
+                    Console.WriteLine();
+                    currentRow = gridSpot.SpotLetter;
+                }
+
+                if (gridSpot.Status == GridSpotStatus.Empty)
+                {
+                    Console.Write($"{gridSpot.SpotLetter} {gridSpot.SpotNumber}");
+                }
+                else if (gridSpot.Status == GridSpotStatus.Hit) 
+                {
+                    Console.Write("X");
+                }
+                else if (gridSpot.Status == GridSpotStatus.Miss)
+                {
+                    Console.Write("O");
+                }
+                else
+                {
+                    Console.Write("?"); //throwing a question mark instead of an exception
+                }
+                
+            }
         }
 
         public static void WelcomeMessage()

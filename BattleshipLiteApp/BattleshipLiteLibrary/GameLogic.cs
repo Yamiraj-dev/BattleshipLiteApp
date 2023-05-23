@@ -54,5 +54,35 @@ namespace BattleshipLiteLibrary
         {
             throw new NotImplementedException();
         }
+
+        public static bool PlayerStillActive(PlayerInfoModel player2)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static int GetShotCount(PlayerInfoModel winner)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static (string row, int column) SpotIdentifier(string shot)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static bool ValidateShot(PlayerInfoModel activePlayer, string row, int column)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static bool ShotResultIdentifier(PlayerInfoModel opponent, string row, int column)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static void MarkShotResults(PlayerInfoModel activePlayer, string row, int column, bool isHit)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
