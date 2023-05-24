@@ -180,6 +180,7 @@ namespace BattleshipLiteLibrary
                 if (ship.SpotLetter == row.ToUpper() && ship.SpotNumber == column)
                 {
                     isHit = true;
+                    ship.Status = GridSpotStatus.Sunk;
                 }
             }
 
