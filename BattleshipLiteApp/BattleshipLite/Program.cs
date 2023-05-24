@@ -115,19 +115,19 @@ namespace BattleshipLite
 
                 if (gridSpot.Status == GridSpotStatus.Empty)
                 {
-                    Console.Write($"{gridSpot.SpotLetter} {gridSpot.SpotNumber}");
+                    Console.Write($" {gridSpot.SpotLetter}{gridSpot.SpotNumber} "); // Fixed grid, forgot spacing and ommitted space between letter and number.
                 }
                 else if (gridSpot.Status == GridSpotStatus.Hit) 
                 {
-                    Console.Write("X");
+                    Console.Write(" X  ");
                 }
                 else if (gridSpot.Status == GridSpotStatus.Miss)
                 {
-                    Console.Write("O");
+                    Console.Write(" O  ");
                 }
                 else
                 {
-                    Console.Write("?"); //throwing a question mark instead of an exception
+                    Console.Write(" ?  "); //throwing a question mark instead of an exception
                 }
                 
             }
